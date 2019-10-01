@@ -13,6 +13,7 @@ marshmallow = "*"
 sqlalchemy-json-querybuilder = "*"
 virtualenvwrapper-win = "*"
 flask-cors = "*"
+nose2 = "*"
 
 [requires]
 python_version = "3.7"

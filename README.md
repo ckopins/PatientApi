@@ -1,5 +1,5 @@
          Patient Search API
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#######################################
 
 Running API Requires:
     - python 3
@@ -23,6 +23,7 @@ Python:
     * [POST] http://localhost:5000/patient/address
     * [POST] http://localhost:5000patient/search
     * [DELETE] http://localhost:5000/patient/<int:id>
+- in order to run the unit tests run the command 'nose2' from the backend directory
 
 Angular:
 - from a command line or terminal navigate to PatientsApi/www and run 'npm install' 

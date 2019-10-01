@@ -111,3 +111,57 @@ TABLESPACE pg_default;
 
 ALTER TABLE public."Log"
     OWNER to (SELECT current_user);
+
+
+-- CREATE MOCK DATA
+INSERT INTO public."Patient"(
+	created_by, created_date, enterprise_id, last_modified_date, last_modified_by)
+	VALUES ('mock', NOW(), '001', NOW(), 'mock');
+
+INSERT INTO public."Patient"(
+	created_by, created_date, enterprise_id, last_modified_date, last_modified_by)
+	VALUES ('mock', NOW(), '002', NOW(), 'mock');
+
+INSERT INTO public."Patient"(
+	created_by, created_date, enterprise_id, last_modified_date, last_modified_by)
+	VALUES ('mock', NOW(), '003', NOW(), 'mock');
+
+INSERT INTO public."Patient"(
+	created_by, created_date, enterprise_id, last_modified_date, last_modified_by)
+	VALUES ('mock', NOW(), '004', NOW(), 'mock');
+
+INSERT INTO public."PatientAddress"(
+	created_by, created_date, last_modified_by, last_modified_date, address_line_1, address_line_2, city, state, zip_code)
+	VALUES ('mock', NOW(), 'mock', NOW(), '12 taco ln', ' ', 'tacosville', 'tacostate', '21212');
+
+INSERT INTO public."PatientAddress"(
+	created_by, created_date, last_modified_by, last_modified_date, address_line_1, address_line_2, city, state, zip_code)
+	VALUES ('mock', NOW(), 'mock', NOW(), '12 taco ln', ' ', 'tacosville', 'tacostate', '21212');
+
+INSERT INTO public."PatientAddress"(
+	created_by, created_date, last_modified_by, last_modified_date, address_line_1, address_line_2, city, state, zip_code)
+	VALUES ('mock', NOW(), 'mock', NOW(), '12 taco ln', ' ', 'tacosville', 'tacostate', '21212');
+
+INSERT INTO public."PatientAddress"(
+	created_by, created_date, last_modified_by, last_modified_date, address_line_1, address_line_2, city, state, zip_code)
+	VALUES ('mock', NOW(), 'mock', NOW(), '12 taco ln', ' ', 'tacosville', 'tacostate', '21212');
+
+INSERT INTO public."PatientMemberRecord"(
+	created_by, created_date, last_modified_by, last_modified_date, source, medical_record_number, first_name, last_name, social_security_number, patient_id, patient_address_id)
+	VALUES ('mock', NOW(), 'mock', NOW(), 'Clinic', '012A', 'Betty', 'Sue', '123-45-6789', 1, 1);
+
+INSERT INTO public."PatientMemberRecord"(
+	created_by, created_date, last_modified_by, last_modified_date, source, medical_record_number, first_name, last_name, social_security_number, patient_id, patient_address_id)
+	VALUES ('mock', NOW(), 'mock', NOW(), 'Clinic', '012C', 'Connor', 'MacLeod', '323-65-6789', 2, 2);
+
+INSERT INTO public."PatientMemberRecord"(
+	created_by, created_date, last_modified_by, last_modified_date, source, medical_record_number, first_name, last_name, social_security_number, patient_id, patient_address_id)
+	VALUES ('mock', NOW(), 'mock', NOW(), 'Clinic', '014A', 'Ricky', 'Bob', '123-45-3222', 3, 3);
+
+INSERT INTO public."PatientMemberRecord"(
+	created_by, created_date, last_modified_by, last_modified_date, source, medical_record_number, first_name, last_name, social_security_number, patient_id, patient_address_id)
+	VALUES ('mock', NOW(), 'mock', NOW(), 'Clinic', '012B', 'John', 'McClane', '344-45-6789', 4, 4);
+
+INSERT INTO public."PatientMemberRecord"(
+	created_by, created_date, last_modified_by, last_modified_date, source, medical_record_number, first_name, last_name, social_security_number, patient_id, patient_address_id)
+	VALUES ('mock', NOW(), 'mock', NOW(), 'Clinic', '012D', 'Rick', 'Boby', '123-21-6439', 3, 3);
