@@ -1,0 +1,40 @@
+<table class="table">
+    <tr>
+        <td></td>
+        <td>
+            Source: <input type="text" [(ngModel)]="searchFilter.source" />
+        </td>
+        <td>
+            Medical Record Number: <input type="text" [(ngModel)]="searchFilter.medical_record_number" />
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td colspan="2">
+            <button type="button" (click)="searchPatients()">Search</button>
+        </td>
+    </tr>
+</table>
+
+<table class="table table-striped">
+    <thead>
+        <th>Enterprise Id</th>
+        <th>Patient Name</th>
+        <th>Patient Address</th>
+        <th>SSN</th>
+        <th>Source</th>
+        <th>Medical Record Number</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let pmr of patientRecords">
+            <td>{{pmr.patient.enterprise_id}}</td>
+            <td>{{pmr.full_name}}</td>
+            <td>{{pmr.patient_address.full_address}}</td>
+            <td>{{pmr.social_security_number}}</td>
+            <td>{{pmr.source}}</td>
+            <td>{{pmr.medical_record_number}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<router-outlet></router-outlet>

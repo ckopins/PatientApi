@@ -1,2 +1,0 @@
-# PatientApi
-Patient Records API
