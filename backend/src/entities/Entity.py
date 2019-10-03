@@ -3,14 +3,6 @@ from sqlalchemy import create_engine, Column, String, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-db_url = 'localhost:5432'
-db_name = 'patients_db'
-db_user = 'postgres'
-db_password = 'password'
-db_url = f'postgresql://{db_user}:{db_password}@{db_url}/{db_name}'
-
-engine = create_engine(db_url)
-Session = sessionmaker(bind=engine)
 Base = declarative_base()
 
 class Entity():

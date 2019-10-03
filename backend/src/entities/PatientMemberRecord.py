@@ -2,12 +2,8 @@ from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from marshmallow import Schema, fields
 from . import Entity, Patient, PatientAddress
-# from Entity import Entity, Base
-# from Patient import Patient, PatientSchema
-# from PatientAddress import PatientAddress, PatientAddressSchema
 
 Base = Entity.Base
-#PatientSchema = Patient.PatientSchema
 PatientAddressSchema = PatientAddress.PatientAddressSchema
 
 class PatientMemberRecord(Entity.Entity, Base):

@@ -29,7 +29,6 @@ class Patient(Entity.Entity, Base):
 class PatientSchema(Schema):
     id = fields.Number()
     enterprise_id = fields.Str()
-    # member_records = fields.Nested(PatientMemberRecordSchema, many=True, only=('id', 'source', 'medical_record_number', 'first_name', 'last_name', 'social_security_number', 'patient_id', 'patient_address_id', 'patient_address', 'created_by', 'created_date', 'last_modified_by', 'last_modified_date'))
     member_records = fields.List(fields.Nested(PatientMemberRecordSchema, dump_only=True))
     created_date = fields.DateTime()
     created_by = fields.Str()

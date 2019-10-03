@@ -4,8 +4,6 @@ from datetime import datetime as dt
 from ..entities import Entity, Patient, PatientAddress, PatientMemberRecord, SearchFilter
 from .. import main
 
-Session = Entity.Session
-engine = Entity.engine
 app = main.app
 PatientSchema = Patient.PatientSchema
 PatientAddressSchema = PatientAddress.PatientAddressSchema
@@ -27,6 +25,7 @@ class PatientUnitTest(unittest.TestCase):
         response = self.fetch_patient(1)
         self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(response.data)
+        print('Test passed')
 
     def test_upload_patient(self):
         print('starting upload patient test')
@@ -40,6 +39,7 @@ class PatientUnitTest(unittest.TestCase):
         response = self.upload_patient(PatientSchema().dump(patient))
         self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(response.data)
+        print('Test passed')
 
     def test_upload_patient_member_record(self):
         print('starting upload patient memeber record test')
@@ -59,6 +59,7 @@ class PatientUnitTest(unittest.TestCase):
         response = self.upload_patient_member_record(PatientMemberRecordSchema().dump(patientMemberRecord))
         self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(response.data)
+        print('Test passed')
 
     def test_upload_patient_address(self):
         print('starting upload patient address test')
@@ -76,6 +77,7 @@ class PatientUnitTest(unittest.TestCase):
         response = self.upload_patient_address(PatientAddressSchema().dump(patientAddress))
         self.assertEqual(response.status_code, 200)
         self.assertIsNotNone(response.data)
+        print('Test passed')
 
     def test_search_patient(self):
         print('starting search patient')
@@ -84,6 +86,7 @@ class PatientUnitTest(unittest.TestCase):
         patientSearch.medical_record_number = '000001'
         response = self.search_patients(SearchFilterSchema().dump(patientSearch))
         self.assertEqual(response.status_code, 200)
+        print('Test passed')
 
     def fetch_patient(self, id):
         return self.app.get(f'/patient/{id}', follow_redirects=False)
