@@ -2,15 +2,16 @@
 
 import time
 from flask import jsonify, request
+from ..entities import Entity, Patient, PatientMemberRecord, PatientAddress, SearchFilter
+from ..helpers import Utils
+from ..managers import patient_manager
+
+PatientSchema = Patient.PatientSchema
+PatientMemberRecordSchema = PatientMemberRecord.PatientMemberRecordSchema
+PatientAddressSchema = PatientAddress.PatientAddressSchema
+_patient_manager = patient_manager.PatientManager()
 
 def patient_routes(app, Session):
-    from ..entities import Entity, Patient, PatientMemberRecord, PatientAddress, SearchFilter
-    from ..helpers import Utils
-
-    PatientSchema = Patient.PatientSchema
-    PatientMemberRecordSchema = PatientMemberRecord.PatientMemberRecordSchema
-    PatientAddressSchema = PatientAddress.PatientAddressSchema
-
     """ 
     FUNCTION
     --------
@@ -37,17 +38,10 @@ def patient_routes(app, Session):
             search_filter = SearchFilter.SearchFilterSchema()
             search_filter.source = search_filter_parm['source'] 
             search_filter.medical_record_number = search_filter_parm['medical_record_number']
-            results = []
-            session = Session()
             
-            if (not Utils.str_has_value(search_filter.source)) and (not Utils.str_has_value(search_filter.medical_record_number)):
-                patient_members = session.query(PatientMemberRecord.PatientMemberRecord).all()
-            else:    
-                patient_members = session.query(PatientMemberRecord.PatientMemberRecord).\
-                    filter((Utils.str_has_value(search_filter.medical_record_number) and search_filter.medical_record_number == PatientMemberRecord.PatientMemberRecord.medical_record_number) \
-                        and (Utils.str_has_value(search_filter.source) and search_filter.source == PatientMemberRecord.PatientMemberRecord.source)). \
-                    all()
-
+            results = []
+            patient_members = _patient_manager.search_patients(search_filter)
+            
             if len(patient_members) > 0:
                 for p in patient_members:
                     pmr_schema = PatientMemberRecord.PatientMemberRecordSchema().dump(p)
@@ -59,12 +53,11 @@ def patient_routes(app, Session):
 
                     results.append(pmr_schema)
             
-            Utils.check_debug(session, time.process_time(), 'search_patients()')
-            session.close()
+            Utils.check_debug(time.process_time(), 'search_patients()')
 
             return jsonify(results), 200
         except Exception as ex:
-            Utils.log(session, 'search_patients', msg=str(ex))
+            Utils.log('search_patients', msg=str(ex))
             return 'Server Error', 500
 
     """ 
@@ -93,20 +86,20 @@ def patient_routes(app, Session):
             patient_request = PatientSchema().load(request.get_json())
             patient = Patient.Patient(patient_request['created_by'], patient_schema=patient_request)
 
-            if patient.id == None or patient.id == 0:
-                session.add(patient)
+            if patient_request.id == None or patient_request.id == 0:
+                session.add(patient_request)
             else:
-                session.query(Patient.Patient).filter(Patient.Patient.id == patient.id).update(patient_request)
+                session.query(Patient.Patient).filter(Patient.Patient.id == patient_request.id).update(patient_request)
             
             session.commit()
 
-            result = PatientSchema().dump(patient)
-            Utils.check_debug(session, time.process_time(), 'post_patient()')
+            result = PatientSchema().dump(patient_request)
+            Utils.check_debug(time.process_time(), 'post_patient()')
             session.close()
 
             return jsonify(result), 200
         except Exception as ex:
-            Utils.log(session, 'post_patient', msg=str(ex))
+            Utils.log('post_patient', msg=str(ex))
             return ex, 500
 
     """ 
@@ -142,12 +135,12 @@ def patient_routes(app, Session):
             session.commit()
             
             result = PatientMemberRecordSchema().dump(patient_record)
-            Utils.check_debug(session, time.process_time(), 'post_patient_member_record()')
+            Utils.check_debug(time.process_time(), 'post_patient_member_record()')
             session.close()
 
             return jsonify(result), 200
         except Exception as ex:
-            Utils.log(session, 'post_patient_member_record', msg=str(ex))
+            Utils.log('post_patient_member_record', msg=str(ex))
             return 'Server Error', 500
 
     """ 
@@ -183,11 +176,11 @@ def patient_routes(app, Session):
             session.commit()
 
             result = PatientAddressSchema().dump(patient_address)
-            Utils.check_debug(session, time.process_time(), 'post_patient_address()')
+            Utils.check_debug(time.process_time(), 'post_patient_address()')
             session.close()
             return jsonify(result), 200
         except Exception as ex:
-            Utils.log(session, 'post_patient_address', msg=str(ex))
+            Utils.log('post_patient_address', msg=str(ex))
             return 'Server Error', 500
 
     """ 
@@ -212,9 +205,8 @@ def patient_routes(app, Session):
     @app.route('/patient/<int:id>')
     def get_patient(id):
         try:
-            session = Session()
+            patient = _patient_manager.get_patient(id)
             p_result = None
-            patient = session.query(Patient.Patient).get(id)
 
             if patient != None:
                 p_result = PatientSchema().dump(patient)
@@ -228,13 +220,11 @@ def patient_routes(app, Session):
                     pmr_results.append(pmr)
                 
                 p_result['member_records'] = pmr_results
-
-            Utils.check_debug(session, time.process_time(), 'get_patient()')
-            session.close()
-
+            
+            Utils.check_debug(time.process_time(), 'get_patient()')
             return jsonify(p_result), 200
         except Exception as ex:
-            Utils.log(session, 'get_patient', msg=str(ex))
+            Utils.log('get_patient', msg=str(ex))
             return 'Server Error', 500
 
     """ 
@@ -261,7 +251,7 @@ def patient_routes(app, Session):
             session = Session()
             session.query(Patient.Patient).filter(Patient.Patient.id == id).delete()
             session.commit()
-            Utils.check_debug(session, time.process_time(), 'delete_patient()')
+            Utils.check_debug(time.process_time(), 'delete_patient()')
             session.close()
 
             return jsonify(''), 200

@@ -44,4 +44,3 @@ class PatientSchema(Schema):
         self.last_modified_by = last_modified_by
         self.last_modified_date = last_modified_date
         return self
-
