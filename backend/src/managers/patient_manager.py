@@ -32,7 +32,7 @@ class PatientManager():
 
     def save_patient(self, patient):
         session = Session()
-
+        print('save patient')
         if patient.id == None or patient.id == 0:
             session.add(patient)
         else:

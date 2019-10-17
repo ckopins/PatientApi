@@ -12,6 +12,23 @@ PatientAddressSchema = PatientAddress.PatientAddressSchema
 _patient_manager = patient_manager.PatientManager()
 
 def patient_routes(app, Session):
+    @app.route('/patient/test', methods=['GET'])
+    def test_patient():
+        try:
+            patient = Patient.Patient()
+            patient.enterprise_id = '999'
+            print('saving patient')
+            patient = _patient_manager.save_patient(patient)
+            print('patient saved')
+
+            result = PatientSchema().dump(patient)
+            tempP = PatientSchema().load(result)
+
+            return jsonify(result), 200
+        except Exception as ex:
+            print(ex)
+            return 'error', 500
+
     """ 
     FUNCTION
     --------

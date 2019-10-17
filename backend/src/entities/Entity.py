@@ -12,8 +12,12 @@ class Entity():
     last_modified_date = Column(DateTime)
     last_modified_by = Column(String)
 
-    def __init__(self, created_by):
-        self.created_by = created_by
-        self.created_date = dt.now()
-        self.last_modified_date = dt.now()
-        self.last_modified_by = created_by
+    def __init__(self, *args, **kwargs):
+        self.created_by = kwargs.pop('created_by', '')
+        self.created_date = kwargs.pop('created_date', None)
+        self.last_modified_date = kwargs.pop('last_modified_date', None)
+        self.last_modified_by = kwargs.pop('last_modified_by', '')
+        # self.created_by = created_by
+        # self.created_date = created_date
+        # self.last_modified_date = last_modified_date
+        # self.last_modified_by = last_modified_by

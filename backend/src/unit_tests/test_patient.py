@@ -20,12 +20,12 @@ class PatientUnitTest(unittest.TestCase):
     #############
     ### Tests ###
     #############
-    def test_fetch_patient(self):
-        print('starting fetch patient test')
-        response = self.fetch_patient(1)
-        self.assertEqual(response.status_code, 200)
-        self.assertIsNotNone(response.data)
-        print('Test passed')
+    # def test_fetch_patient(self):
+    #     print('starting fetch patient test')
+    #     response = self.fetch_patient(1)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertIsNotNone(response.data)
+    #     print('Test passed')
 
     def test_upload_patient(self):
         print('starting upload patient test')
@@ -41,52 +41,52 @@ class PatientUnitTest(unittest.TestCase):
         self.assertIsNotNone(response.data)
         print('Test passed')
 
-    def test_upload_patient_member_record(self):
-        print('starting upload patient memeber record test')
-        patientMemberRecord = PatientMemberRecordSchema()
-        patientMemberRecord.source = 'Hospital'
-        patientMemberRecord.medical_record_number = '0000099'
-        patientMemberRecord.first_name =  'Taco'
-        patientMemberRecord.last_name = 'Man'
-        patientMemberRecord.social_security_number = '123-45-6789'
-        patientMemberRecord.patient_id = 1
-        patientMemberRecord.patient_address_id = 1
-        patientMemberRecord.created_by = 'unit_test'
-        patientMemberRecord.created_date = dt.now()
-        patientMemberRecord.last_modified_by = 'unit_test'
-        patientMemberRecord.last_modified_date = dt.now()
+    # def test_upload_patient_member_record(self):
+    #     print('starting upload patient memeber record test')
+    #     patientMemberRecord = PatientMemberRecordSchema()
+    #     patientMemberRecord.source = 'Hospital'
+    #     patientMemberRecord.medical_record_number = '0000099'
+    #     patientMemberRecord.first_name =  'Taco'
+    #     patientMemberRecord.last_name = 'Man'
+    #     patientMemberRecord.social_security_number = '123-45-6789'
+    #     patientMemberRecord.patient_id = 1
+    #     patientMemberRecord.patient_address_id = 1
+    #     patientMemberRecord.created_by = 'unit_test'
+    #     patientMemberRecord.created_date = dt.now()
+    #     patientMemberRecord.last_modified_by = 'unit_test'
+    #     patientMemberRecord.last_modified_date = dt.now()
         
-        response = self.upload_patient_member_record(PatientMemberRecordSchema().dump(patientMemberRecord))
-        self.assertEqual(response.status_code, 200)
-        self.assertIsNotNone(response.data)
-        print('Test passed')
+    #     response = self.upload_patient_member_record(PatientMemberRecordSchema().dump(patientMemberRecord))
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertIsNotNone(response.data)
+    #     print('Test passed')
 
-    def test_upload_patient_address(self):
-        print('starting upload patient address test')
-        patientAddress = PatientAddressSchema()
-        patientAddress.address_line_1 = '1 Taco ln'
-        patientAddress.address_line_2 =  ''
-        patientAddress.city = 'Tacosville'
-        patientAddress.state = 'TacoLand'
-        patientAddress.zip_code = '32323'
-        patientAddress.created_by = 'unit_test'
-        patientAddress.created_date = dt.now()
-        patientAddress.last_modified_by = 'unit_test'
-        patientAddress.last_modified_date = dt.now()
+    # def test_upload_patient_address(self):
+    #     print('starting upload patient address test')
+    #     patientAddress = PatientAddressSchema()
+    #     patientAddress.address_line_1 = '1 Taco ln'
+    #     patientAddress.address_line_2 =  ''
+    #     patientAddress.city = 'Tacosville'
+    #     patientAddress.state = 'TacoLand'
+    #     patientAddress.zip_code = '32323'
+    #     patientAddress.created_by = 'unit_test'
+    #     patientAddress.created_date = dt.now()
+    #     patientAddress.last_modified_by = 'unit_test'
+    #     patientAddress.last_modified_date = dt.now()
 
-        response = self.upload_patient_address(PatientAddressSchema().dump(patientAddress))
-        self.assertEqual(response.status_code, 200)
-        self.assertIsNotNone(response.data)
-        print('Test passed')
+    #     response = self.upload_patient_address(PatientAddressSchema().dump(patientAddress))
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertIsNotNone(response.data)
+    #     print('Test passed')
 
-    def test_search_patient(self):
-        print('starting search patient')
-        patientSearch = SearchFilterSchema()
-        patientSearch.source = 'Clinic'
-        patientSearch.medical_record_number = '000001'
-        response = self.search_patients(SearchFilterSchema().dump(patientSearch))
-        self.assertEqual(response.status_code, 200)
-        print('Test passed')
+    # def test_search_patient(self):
+    #     print('starting search patient')
+    #     patientSearch = SearchFilterSchema()
+    #     patientSearch.source = 'Clinic'
+    #     patientSearch.medical_record_number = '000001'
+    #     response = self.search_patients(SearchFilterSchema().dump(patientSearch))
+    #     self.assertEqual(response.status_code, 200)
+    #     print('Test passed')
 
     def fetch_patient(self, id):
         return self.app.get(f'/patient/{id}', follow_redirects=False)
